@@ -12,17 +12,13 @@ export const amountSchema = z
     message: "amount must be greater than zero",
   });
 
-const urlStringSchema = z.string().refine(
-  (value) => {
-    try {
-      new URL(value);
-      return true;
-    } catch {
-      return false;
-    }
-  },
-  { message: "must be a valid URL" },
-);
+const HTTP_URL_PATTERN = /^https?:\/\/[^\s]+$/i;
+
+const urlStringSchema = z
+  .string()
+  .refine((value) => HTTP_URL_PATTERN.test(value), {
+    message: "must be an http(s) URL",
+  });
 
 const isoDateStringSchema = z
   .string()
