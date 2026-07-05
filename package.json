@@ -1,0 +1,28 @@
+{
+  "name": "fiber-merchantops-core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Backend merchant operations infrastructure for Fiber payments: payment intents, signed webhooks, receipts, append-only ledger, and reconciliation exports.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.17.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "esbuild",
+      "prisma"
+    ]
+  },
+  "scripts": {
+    "dev:api": "pnpm --filter @fiber-merchantops/api-server dev",
+    "dev:demo": "pnpm --filter @fiber-merchantops/merchant-demo dev",
+    "dev:admin": "pnpm --filter @fiber-merchantops/admin-ui dev",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "build": "pnpm -r build"
+  }
+}

@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Merchant {
+  id            String   @id
+  name          String
+  webhookUrl    String?
+  webhookSecret String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  paymentIntents PaymentIntent[]
+}
+
+model PaymentIntent {
+  id                String    @id
+  merchantId        String
+  orderId           String
+  amount            String
+  asset             String
+  description       String?
+  customerReference String?
+  status            String
+  fiberInvoice      String?
+  paymentHash       String?
+  receiptId         String?
+  expiresAt         DateTime?
+  metadataJson      String?
+  idempotencyKey    String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  merchant      Merchant       @relation(fields: [merchantId], references: [id])
+  ledgerEvents  LedgerEvent[]
+  webhookEvents WebhookEvent[]
+
+  @@unique([merchantId, orderId])
+  @@unique([merchantId, idempotencyKey])
+  @@index([merchantId, createdAt])
+}
+
+model LedgerEvent {
+  id              String   @id
+  merchantId      String
+  paymentIntentId String?
+  orderId         String?
+  eventType       String
+  asset           String?
+  amount          String?
+  paymentHash     String?
+  dataJson        String?
+  createdAt       DateTime @default(now())
+
+  paymentIntent PaymentIntent? @relation(fields: [paymentIntentId], references: [id])
+
+  @@index([merchantId, createdAt])
+  @@index([paymentIntentId])
+}
+
+model WebhookEvent {
+  id              String    @id
+  merchantId      String
+  paymentIntentId String?
+  type            String
+  payloadJson     String
+  status          String
+  attempts        Int       @default(0)
+  nextRetryAt     DateTime?
+  lastError       String?
+  deliveredAt     DateTime?
+  createdAt       DateTime  @default(now())
+
+  paymentIntent PaymentIntent? @relation(fields: [paymentIntentId], references: [id])
+
+  @@index([status, nextRetryAt])
+  @@index([merchantId, createdAt])
+  @@index([paymentIntentId])
+}
+
+model Receipt {
+  id              String   @id
+  merchantId      String
+  paymentIntentId String
+  orderId         String
+  asset           String
+  amount          String
+  paymentHash     String?
+  status          String
+  html            String?
+  json            String
+  createdAt       DateTime @default(now())
+
+  @@unique([paymentIntentId])
+  @@index([merchantId, createdAt])
+}
+
+model IdempotencyRecord {
+  key          String   @id
+  merchantId   String
+  requestHash  String
+  responseJson String
+  createdAt    DateTime @default(now())
+
+  @@index([merchantId])
+}

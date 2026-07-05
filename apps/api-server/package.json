@@ -1,0 +1,30 @@
+{
+  "name": "@fiber-merchantops/api-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Fiber MerchantOps Core API server: payment intents, webhooks, ledger, receipts, and reconciliation exports.",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.2.0",
+    "@fiber-merchantops/shared": "workspace:*",
+    "@prisma/client": "^6.19.3",
+    "dotenv": "^17.4.2",
+    "fastify": "^5.9.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0",
+    "prisma": "^6.19.3",
+    "tsx": "^4.23.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  }
+}
