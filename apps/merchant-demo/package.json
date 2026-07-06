@@ -1,0 +1,25 @@
+{
+  "name": "@fiber-merchantops/merchant-demo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Demo merchant backend: receives signed Fiber MerchantOps webhooks, verifies HMAC, fulfills orders exactly once, ignores duplicates.",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fiber-merchantops/shared": "workspace:*",
+    "@fiber-merchantops/webhook-engine": "workspace:*",
+    "dotenv": "^17.4.2",
+    "fastify": "^5.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0",
+    "tsx": "^4.23.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  }
+}
