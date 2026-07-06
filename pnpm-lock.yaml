@@ -13,9 +13,21 @@ importers:
       '@fastify/cors':
         specifier: ^11.2.0
         version: 11.2.0
+      '@fiber-merchantops/fiber-adapter':
+        specifier: workspace:*
+        version: link:../../packages/fiber-adapter
+      '@fiber-merchantops/ledger':
+        specifier: workspace:*
+        version: link:../../packages/ledger
+      '@fiber-merchantops/payment-intents':
+        specifier: workspace:*
+        version: link:../../packages/payment-intents
       '@fiber-merchantops/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      '@fiber-merchantops/webhook-engine':
+        specifier: workspace:*
+        version: link:../../packages/webhook-engine
       '@prisma/client':
         specifier: ^6.19.3
         version: 6.19.3(prisma@6.19.3(typescript@6.0.3))(typescript@6.0.3)

@@ -14,7 +14,11 @@
   },
   "dependencies": {
     "@fastify/cors": "^11.2.0",
+    "@fiber-merchantops/fiber-adapter": "workspace:*",
+    "@fiber-merchantops/ledger": "workspace:*",
+    "@fiber-merchantops/payment-intents": "workspace:*",
     "@fiber-merchantops/shared": "workspace:*",
+    "@fiber-merchantops/webhook-engine": "workspace:*",
     "@prisma/client": "^6.19.3",
     "dotenv": "^17.4.2",
     "fastify": "^5.9.0",
