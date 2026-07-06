@@ -190,7 +190,7 @@ In real mode (`FIBER_ADAPTER_MODE=real`) these return `403 demo_mode_disabled`.
 
 ### `GET /v1/ledger?merchant_id=m_123`
 
-Append-only timeline, newest first:
+Append-only timeline, oldest first (chronological):
 
 ```json
 {

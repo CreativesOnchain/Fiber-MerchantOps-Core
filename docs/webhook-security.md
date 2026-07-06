@@ -65,22 +65,24 @@ This is exactly the scheme `@fiber-merchantops/webhook-engine` implements
 
 ## Reproducible verification vector
 
-The following values were captured from a real delivery (webhook secret
-`whsec_doc_sample_secret`). The `raw_body` below is the exact signed byte string:
+The following values were captured from the real end-to-end demo run (merchant
+`m_shop`, webhook secret `whsec_demo_secret`). The `raw_body` below is the exact signed
+byte string, and matches [../examples/sample-webhook-payload.json](../examples/sample-webhook-payload.json)
+(pretty-printed):
 
 ```
-secret     = whsec_doc_sample_secret
-t          = 1783351957
-v1         = 2694f0cb73042f1601468c8a502ee64039f30e45437a67178014632452f5c82a
-raw_body   = {"event_id":"evt_a7e484723902b52b72dd9390","type":"payment_intent.paid","created_at":"2026-07-06T15:32:36.496Z","data":{"payment_intent_id":"pi_30b71666583434c8ef255a1e","merchant_id":"m_doc","order_id":"order_789","asset":"RUSD","amount":"25","payment_hash":"0x60c3b33d65eeb31f21b33b7ffb97dc78959195a7c440dee5150563e767d06d8e","fiber_invoice":"fibt1cpgmxr52823vjej0vlnyeenvkclwh4yp43sx3530cpfmlwfa85vy7t8x9xsszuku0gzv00yglly9c26la6t7g3yttechu8f4","status":"paid"}}
+secret     = whsec_demo_secret
+t          = 1783353427
+v1         = 52a4508c8db730c4b5002e2c2a1046f1372e16cc6b17f4d2de27e64b142d5ad7
+raw_body   = {"event_id":"evt_e9483f5cf1f411ffd341eb1b","type":"payment_intent.paid","created_at":"2026-07-06T15:57:07.625Z","data":{"payment_intent_id":"pi_94f180527ac5b0a6e6e4a7d3","merchant_id":"m_shop","order_id":"order_789","asset":"RUSD","amount":"25","payment_hash":"0x408eeb9064677af43a42012446d15e5cb6bf179b83f055f188ed282b043e63bd","fiber_invoice":"fibt1kqdzft8lgvry87hpgv7usrkj8agraq0q74wxuxpnz3e3fhgakg7valalrwdmf9558w2m23f98y3sq7va7qukcsfgtap5d26p","status":"paid"}}
 ```
 
 Confirm it independently:
 
 ```bash
-RAW='{"event_id":"evt_a7e484723902b52b72dd9390","type":"payment_intent.paid","created_at":"2026-07-06T15:32:36.496Z","data":{"payment_intent_id":"pi_30b71666583434c8ef255a1e","merchant_id":"m_doc","order_id":"order_789","asset":"RUSD","amount":"25","payment_hash":"0x60c3b33d65eeb31f21b33b7ffb97dc78959195a7c440dee5150563e767d06d8e","fiber_invoice":"fibt1cpgmxr52823vjej0vlnyeenvkclwh4yp43sx3530cpfmlwfa85vy7t8x9xsszuku0gzv00yglly9c26la6t7g3yttechu8f4","status":"paid"}}'
-printf '%s' "1783351957.${RAW}" | openssl dgst -sha256 -hmac "whsec_doc_sample_secret"
-# → 2694f0cb73042f1601468c8a502ee64039f30e45437a67178014632452f5c82a
+RAW='{"event_id":"evt_e9483f5cf1f411ffd341eb1b","type":"payment_intent.paid","created_at":"2026-07-06T15:57:07.625Z","data":{"payment_intent_id":"pi_94f180527ac5b0a6e6e4a7d3","merchant_id":"m_shop","order_id":"order_789","asset":"RUSD","amount":"25","payment_hash":"0x408eeb9064677af43a42012446d15e5cb6bf179b83f055f188ed282b043e63bd","fiber_invoice":"fibt1kqdzft8lgvry87hpgv7usrkj8agraq0q74wxuxpnz3e3fhgakg7valalrwdmf9558w2m23f98y3sq7va7qukcsfgtap5d26p","status":"paid"}}'
+printf '%s' "1783353427.${RAW}" | openssl dgst -sha256 -hmac "whsec_demo_secret"
+# → 52a4508c8db730c4b5002e2c2a1046f1372e16cc6b17f4d2de27e64b142d5ad7
 ```
 
 The pretty-printed payload is in [../examples/sample-webhook-payload.json](../examples/sample-webhook-payload.json).

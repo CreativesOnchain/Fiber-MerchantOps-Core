@@ -130,24 +130,24 @@ When a payment settles, a signed webhook is delivered to the merchant's `webhook
 
 ```
 POST /webhooks/fiber
-Fiber-MerchantOps-Signature: t=1783351957,v1=2694f0cb...c82a
-Idempotency-Key: evt_a7e484723902b52b72dd9390
+Fiber-MerchantOps-Signature: t=1783353427,v1=52a4508c...5ad7
+Idempotency-Key: evt_e9483f5cf1f411ffd341eb1b
 Content-Type: application/json
 ```
 
 ```json
 {
-  "event_id": "evt_a7e484723902b52b72dd9390",
+  "event_id": "evt_e9483f5cf1f411ffd341eb1b",
   "type": "payment_intent.paid",
-  "created_at": "2026-07-06T15:32:36.496Z",
+  "created_at": "2026-07-06T15:57:07.625Z",
   "data": {
-    "payment_intent_id": "pi_30b71666583434c8ef255a1e",
-    "merchant_id": "m_doc",
+    "payment_intent_id": "pi_94f180527ac5b0a6e6e4a7d3",
+    "merchant_id": "m_shop",
     "order_id": "order_789",
     "asset": "RUSD",
     "amount": "25",
-    "payment_hash": "0x60c3b3...06d8e",
-    "fiber_invoice": "fibt1cpgm...chu8f4",
+    "payment_hash": "0x408eeb...e63bd",
+    "fiber_invoice": "fibt1kqdz...5d26p",
     "status": "paid"
   }
 }

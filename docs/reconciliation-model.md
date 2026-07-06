@@ -55,8 +55,8 @@ A merchant with one paid RUSD order and one expired CKB order exports
 
 ```csv
 date,merchant_id,order_id,payment_intent_id,asset,amount,status,payment_hash,fiber_invoice,receipt_id,webhook_status,settlement_status
-2026-07-06,m_doc,order_789,pi_30b7...,RUSD,25,paid,0x60c3...,fibt1cpg...,rcp_d592...,delivered,recorded
-2026-07-06,m_doc,order_790,pi_2213...,CKB,10,expired,0xd4b1...,fibt1yuw...,,delivered,pending
+2026-07-06,m_shop,order_789,pi_94f1...,RUSD,25,paid,0x408e...,fibt1kqd...,rcp_3d9c...,delivered,recorded
+2026-07-06,m_shop,order_790,pi_4d11...,CKB,10,expired,0x3f2d...,fibt1s0g...,,delivered,pending
 ```
 
 The paid row is `recorded` (a `payment_paid` event exists) with a `receipt_id`; the
