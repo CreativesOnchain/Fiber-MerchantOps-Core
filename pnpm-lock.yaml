@@ -25,6 +25,9 @@ importers:
       '@fiber-merchantops/receipts':
         specifier: workspace:*
         version: link:../../packages/receipts
+      '@fiber-merchantops/reconciliation':
+        specifier: workspace:*
+        version: link:../../packages/reconciliation
       '@fiber-merchantops/shared':
         specifier: workspace:*
         version: link:../../packages/shared

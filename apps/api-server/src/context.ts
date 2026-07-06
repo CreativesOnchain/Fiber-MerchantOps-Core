@@ -6,6 +6,8 @@ import { LedgerService } from "./services/ledger-service";
 import { PaymentIntentService } from "./services/payment-intent-service";
 import { PaymentStatusTracker } from "./services/payment-status-tracker";
 import { ReceiptService } from "./services/receipt-service";
+import { ReconciliationService } from "./services/reconciliation-service";
+import { RefundAdjustmentService } from "./services/refund-service";
 import { WebhookDispatcher } from "./services/webhook-dispatcher";
 import { WebhookService } from "./services/webhook-service";
 
@@ -23,6 +25,8 @@ export interface AppContext {
   webhooks: WebhookService;
   webhookDispatcher: WebhookDispatcher;
   receipts: ReceiptService;
+  reconciliation: ReconciliationService;
+  refunds: RefundAdjustmentService;
   paymentIntents: PaymentIntentService;
   statusTracker: PaymentStatusTracker;
 }
@@ -44,6 +48,8 @@ export function createContext(options: CreateContextOptions): AppContext {
     timeoutMs: config.WEBHOOK_TIMEOUT_MS,
   });
   const receipts = new ReceiptService();
+  const reconciliation = new ReconciliationService({ prisma, ledger });
+  const refunds = new RefundAdjustmentService({ prisma, ledger, webhooks });
   const paymentIntents = new PaymentIntentService({
     prisma,
     adapter,
@@ -67,6 +73,8 @@ export function createContext(options: CreateContextOptions): AppContext {
     webhooks,
     webhookDispatcher,
     receipts,
+    reconciliation,
+    refunds,
     paymentIntents,
     statusTracker,
   };

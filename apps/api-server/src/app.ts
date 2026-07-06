@@ -11,11 +11,13 @@ import { createContext } from "./context";
 import { createPrismaClient } from "./db";
 import { ApiError } from "./lib/http-errors";
 import { registerDemoRoutes } from "./routes/demo";
+import { registerExportRoutes } from "./routes/exports";
 import { registerHealthRoutes } from "./routes/health";
 import { registerLedgerRoutes } from "./routes/ledger";
 import { registerMerchantRoutes } from "./routes/merchants";
 import { registerPaymentIntentRoutes } from "./routes/payment-intents";
 import { registerReceiptRoutes } from "./routes/receipts";
+import { registerRefundRoutes } from "./routes/refunds";
 import { registerWebhookRoutes } from "./routes/webhooks";
 
 export interface BuildAppOptions {
@@ -54,6 +56,8 @@ export async function buildApp(
   registerDemoRoutes(app, context);
   registerReceiptRoutes(app, context);
   registerWebhookRoutes(app, context);
+  registerRefundRoutes(app, context);
+  registerExportRoutes(app, context);
   registerLedgerRoutes(app, context);
 
   if (ownsPrisma) {
