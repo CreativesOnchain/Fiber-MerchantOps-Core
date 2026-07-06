@@ -10,10 +10,12 @@ import type { AppConfig } from "./config";
 import { createContext } from "./context";
 import { createPrismaClient } from "./db";
 import { ApiError } from "./lib/http-errors";
+import { registerDemoRoutes } from "./routes/demo";
 import { registerHealthRoutes } from "./routes/health";
 import { registerLedgerRoutes } from "./routes/ledger";
 import { registerMerchantRoutes } from "./routes/merchants";
 import { registerPaymentIntentRoutes } from "./routes/payment-intents";
+import { registerReceiptRoutes } from "./routes/receipts";
 
 export interface BuildAppOptions {
   config: AppConfig;
@@ -48,6 +50,8 @@ export async function buildApp(
   registerHealthRoutes(app, context);
   registerMerchantRoutes(app, context);
   registerPaymentIntentRoutes(app, context);
+  registerDemoRoutes(app, context);
+  registerReceiptRoutes(app, context);
   registerLedgerRoutes(app, context);
 
   if (ownsPrisma) {

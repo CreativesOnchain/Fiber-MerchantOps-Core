@@ -3,9 +3,11 @@ import type { FastifyInstance } from "fastify";
 import {
   createPaymentIntentSchema,
   listPaymentIntentsQuerySchema,
+  type RefreshPaymentIntentResponse,
   type WebhookStatus,
 } from "@fiber-merchantops/shared";
 import type { AppContext } from "../context";
+import type { RefreshResult } from "../services/payment-status-tracker";
 import { ApiError } from "../lib/http-errors";
 import {
   paymentIntentToResponse,
@@ -41,6 +43,13 @@ export function registerPaymentIntentRoutes(
       throw ApiError.notFound(`payment intent ${id} not found`);
     }
     return paymentIntentToResponse(intent);
+  });
+
+  // Refresh against the adapter (brief §14.4) — the shared status-tracker path.
+  app.post("/v1/payment_intents/:id/refresh", async (request) => {
+    const { id } = request.params as { id: string };
+    const result = await ctx.statusTracker.refresh(id);
+    return refreshResultToResponse(id, result);
   });
 
   // List for a merchant with filters + pagination (brief §14.3).
@@ -85,6 +94,20 @@ export function registerPaymentIntentRoutes(
 
     return { items, limit: query.limit, offset: query.offset };
   });
+}
+
+/** RefreshResult → brief §14.4 wire shape. */
+function refreshResultToResponse(
+  intentId: string,
+  result: RefreshResult,
+): RefreshPaymentIntentResponse {
+  return {
+    payment_intent_id: intentId,
+    previous_status: result.previousStatus,
+    current_status: result.currentStatus,
+    receipt_id: result.receiptId,
+    webhook_queued: result.webhookQueued,
+  };
 }
 
 function firstHeaderValue(

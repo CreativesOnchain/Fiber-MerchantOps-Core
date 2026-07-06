@@ -69,9 +69,9 @@ export async function createTestContext(
 
   const config = loadConfig({
     ...process.env,
+    FIBER_ADAPTER_MODE: "simulated",
     ...options.env,
     DATABASE_URL: url,
-    FIBER_ADAPTER_MODE: "simulated",
   });
   const adapter = new SimulatedFiberAdapter();
   const app = await buildApp({ config, prisma, adapter, logger: false });

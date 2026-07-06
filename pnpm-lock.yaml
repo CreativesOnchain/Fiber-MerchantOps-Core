@@ -22,6 +22,9 @@ importers:
       '@fiber-merchantops/payment-intents':
         specifier: workspace:*
         version: link:../../packages/payment-intents
+      '@fiber-merchantops/receipts':
+        specifier: workspace:*
+        version: link:../../packages/receipts
       '@fiber-merchantops/shared':
         specifier: workspace:*
         version: link:../../packages/shared
