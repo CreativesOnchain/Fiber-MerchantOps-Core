@@ -1,0 +1,77 @@
+# Local demo stack for Fiber MerchantOps Core: api-server + merchant-demo + admin-ui.
+#
+# Packages are consumed as TypeScript source (no build step), so each service runs
+# from the repo via pnpm/tsx. A one-shot `install` service populates a shared
+# node_modules volume and creates the SQLite schema; the three long-running services
+# depend on it.
+#
+# Usage (from the repo root):
+#   docker compose -f examples/docker-compose.yml up
+# then open http://localhost:5173 (admin UI). API on :8080, merchant demo on :9090.
+
+name: fiber-merchantops-core
+
+x-node: &node
+  image: node:22-bookworm-slim
+  working_dir: /app
+  volumes:
+    - ..:/app
+    - node_modules:/app/node_modules
+
+services:
+  # One-time: install deps, generate the Prisma client, apply migrations.
+  install:
+    <<: *node
+    command: >
+      bash -lc "corepack enable &&
+                pnpm install --frozen-lockfile &&
+                pnpm --filter @fiber-merchantops/api-server exec prisma generate &&
+                pnpm --filter @fiber-merchantops/api-server exec prisma migrate deploy"
+    environment:
+      DATABASE_URL: file:./dev.db
+
+  api-server:
+    <<: *node
+    depends_on:
+      install:
+        condition: service_completed_successfully
+    command: bash -lc "corepack enable && pnpm --filter @fiber-merchantops/api-server start"
+    environment:
+      PORT: "8080"
+      DATABASE_URL: file:./dev.db
+      FIBER_ADAPTER_MODE: simulated
+      DEFAULT_MERCHANT_ID: m_123
+      DEFAULT_WEBHOOK_SECRET: whsec_demo_secret
+      # Reach the merchant-demo container by service name.
+      MERCHANT_DEMO_WEBHOOK_URL: http://merchant-demo:9090/webhooks/fiber
+    ports:
+      - "8080:8080"
+
+  merchant-demo:
+    <<: *node
+    depends_on:
+      install:
+        condition: service_completed_successfully
+    command: bash -lc "corepack enable && pnpm --filter @fiber-merchantops/merchant-demo start"
+    environment:
+      MERCHANT_DEMO_PORT: "9090"
+      # Must match the api-server merchant's webhook secret to verify signatures.
+      DEFAULT_WEBHOOK_SECRET: whsec_demo_secret
+    ports:
+      - "9090:9090"
+
+  admin-ui:
+    <<: *node
+    depends_on:
+      install:
+        condition: service_completed_successfully
+    command: bash -lc "corepack enable && pnpm --filter @fiber-merchantops/admin-ui dev"
+    environment:
+      ADMIN_UI_PORT: "5173"
+      # The browser (on the host) reaches the API via the published port.
+      VITE_API_BASE_URL: http://localhost:8080
+    ports:
+      - "5173:5173"
+
+volumes:
+  node_modules:
