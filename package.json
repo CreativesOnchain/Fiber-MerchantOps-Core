@@ -21,8 +21,12 @@
     "dev:api": "pnpm --filter @fiber-merchantops/api-server dev",
     "dev:demo": "pnpm --filter @fiber-merchantops/merchant-demo dev",
     "dev:admin": "pnpm --filter @fiber-merchantops/admin-ui dev",
+    "merchantops": "tsx apps/cli/src/index.ts",
     "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck",
     "build": "pnpm -r build"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.0"
   }
 }

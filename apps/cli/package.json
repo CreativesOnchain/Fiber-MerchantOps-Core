@@ -1,0 +1,23 @@
+{
+  "name": "@fiber-merchantops/cli",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Commander CLI for Fiber MerchantOps Core, wired through the @fiber-merchantops/core SDK.",
+  "type": "module",
+  "bin": {
+    "merchantops": "src/index.ts"
+  },
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fiber-merchantops/core": "workspace:*",
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0",
+    "tsx": "^4.23.0",
+    "typescript": "^6.0.3"
+  }
+}
