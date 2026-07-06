@@ -6,6 +6,7 @@ import { LedgerService } from "./services/ledger-service";
 import { PaymentIntentService } from "./services/payment-intent-service";
 import { PaymentStatusTracker } from "./services/payment-status-tracker";
 import { ReceiptService } from "./services/receipt-service";
+import { WebhookDispatcher } from "./services/webhook-dispatcher";
 import { WebhookService } from "./services/webhook-service";
 
 /**
@@ -20,6 +21,7 @@ export interface AppContext {
   ledger: LedgerService;
   idempotency: IdempotencyService;
   webhooks: WebhookService;
+  webhookDispatcher: WebhookDispatcher;
   receipts: ReceiptService;
   paymentIntents: PaymentIntentService;
   statusTracker: PaymentStatusTracker;
@@ -36,6 +38,11 @@ export function createContext(options: CreateContextOptions): AppContext {
   const ledger = new LedgerService();
   const idempotency = new IdempotencyService();
   const webhooks = new WebhookService(ledger);
+  const webhookDispatcher = new WebhookDispatcher({
+    prisma,
+    ledger,
+    timeoutMs: config.WEBHOOK_TIMEOUT_MS,
+  });
   const receipts = new ReceiptService();
   const paymentIntents = new PaymentIntentService({
     prisma,
@@ -58,6 +65,7 @@ export function createContext(options: CreateContextOptions): AppContext {
     ledger,
     idempotency,
     webhooks,
+    webhookDispatcher,
     receipts,
     paymentIntents,
     statusTracker,

@@ -2,6 +2,7 @@ import { buildApp } from "./app";
 import { loadConfig } from "./config";
 import { seedDefaultMerchant } from "./seed";
 import { startStatusPoller } from "./workers/status-poller";
+import { startWebhookWorker } from "./workers/webhook-worker";
 
 async function main(): Promise<void> {
   const config = loadConfig();
@@ -9,6 +10,13 @@ async function main(): Promise<void> {
 
   // Boot with the demo merchant present (blueprint §1 / brief demo step 4).
   await seedDefaultMerchant(app.context.prisma, config);
+
+  // Webhook delivery worker — always on; drains queued webhooks on an interval.
+  const webhookWorker = startWebhookWorker(app.context);
+  app.addHook("onClose", async () => webhookWorker.stop());
+  app.log.info(
+    `webhook worker started (every ${config.WEBHOOK_WORKER_INTERVAL_MS}ms)`,
+  );
 
   // Optional background status poll — default off (blueprint §16); the demo
   // settles intents through the demo endpoints instead.

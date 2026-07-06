@@ -1,4 +1,9 @@
-import type { LedgerEvent, Merchant, PaymentIntent } from "@prisma/client";
+import type {
+  LedgerEvent,
+  Merchant,
+  PaymentIntent,
+  WebhookEvent,
+} from "@prisma/client";
 import type {
   LedgerEventType,
   LedgerEventResponse,
@@ -7,6 +12,8 @@ import type {
   PaymentIntentResponse,
   PaymentIntentStatus,
   PaymentIntentSummary,
+  WebhookEventResponse,
+  WebhookEventType,
   WebhookStatus,
 } from "@fiber-merchantops/shared";
 
@@ -75,6 +82,24 @@ export function paymentIntentToSummary(
     receipt_id: intent.receiptId,
     webhook_status: webhookStatus,
     created_at: intent.createdAt.toISOString(),
+  };
+}
+
+/** WebhookEvent row → admin/read wire shape (brief §15 statuses). */
+export function webhookEventToResponse(
+  event: WebhookEvent,
+): WebhookEventResponse {
+  return {
+    event_id: event.id,
+    merchant_id: event.merchantId,
+    payment_intent_id: event.paymentIntentId,
+    type: event.type as WebhookEventType,
+    status: event.status as WebhookStatus,
+    attempts: event.attempts,
+    next_retry_at: event.nextRetryAt ? event.nextRetryAt.toISOString() : null,
+    last_error: event.lastError,
+    delivered_at: event.deliveredAt ? event.deliveredAt.toISOString() : null,
+    created_at: event.createdAt.toISOString(),
   };
 }
 

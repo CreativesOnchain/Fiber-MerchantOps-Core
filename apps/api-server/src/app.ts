@@ -16,6 +16,7 @@ import { registerLedgerRoutes } from "./routes/ledger";
 import { registerMerchantRoutes } from "./routes/merchants";
 import { registerPaymentIntentRoutes } from "./routes/payment-intents";
 import { registerReceiptRoutes } from "./routes/receipts";
+import { registerWebhookRoutes } from "./routes/webhooks";
 
 export interface BuildAppOptions {
   config: AppConfig;
@@ -52,6 +53,7 @@ export async function buildApp(
   registerPaymentIntentRoutes(app, context);
   registerDemoRoutes(app, context);
   registerReceiptRoutes(app, context);
+  registerWebhookRoutes(app, context);
   registerLedgerRoutes(app, context);
 
   if (ownsPrisma) {
