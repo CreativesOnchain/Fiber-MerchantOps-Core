@@ -1,5 +1,6 @@
 import type { PrismaClient } from "@prisma/client";
 import type { FiberAdapter } from "@fiber-merchantops/fiber-adapter";
+import type { FiberNodeInfo } from "./adapter";
 import type { AppConfig } from "./config";
 import { IdempotencyService } from "./services/idempotency-service";
 import { LedgerService } from "./services/ledger-service";
@@ -20,6 +21,8 @@ export interface AppContext {
   config: AppConfig;
   prisma: PrismaClient;
   adapter: FiberAdapter;
+  /** Live-node metadata captured at boot (mode, pubkey, channels, explorer). */
+  node: FiberNodeInfo;
   ledger: LedgerService;
   idempotency: IdempotencyService;
   webhooks: WebhookService;
@@ -35,10 +38,11 @@ export interface CreateContextOptions {
   config: AppConfig;
   prisma: PrismaClient;
   adapter: FiberAdapter;
+  node: FiberNodeInfo;
 }
 
 export function createContext(options: CreateContextOptions): AppContext {
-  const { config, prisma, adapter } = options;
+  const { config, prisma, adapter, node } = options;
   const ledger = new LedgerService();
   const idempotency = new IdempotencyService();
   const webhooks = new WebhookService(ledger);
@@ -68,6 +72,7 @@ export function createContext(options: CreateContextOptions): AppContext {
     config,
     prisma,
     adapter,
+    node,
     ledger,
     idempotency,
     webhooks,

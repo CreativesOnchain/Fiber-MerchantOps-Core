@@ -75,9 +75,37 @@ export function absoluteUrl(path: string): string {
   return `${config.apiBaseUrl}${path}`;
 }
 
+export interface FiberChannelInfo {
+  channelId: string;
+  fundingTxHash: string | null;
+  state: string;
+  localBalance: string | null;
+  remoteBalance: string | null;
+  isPublic: boolean;
+}
+
+/** Mirror of the server's `/v1/node` descriptor (see api-server `adapter.ts`). */
+export interface FiberNodeInfo {
+  mode: "real" | "simulated";
+  reachable: boolean;
+  network: "mainnet" | "testnet" | "devnet";
+  version: string | null;
+  commitHash: string | null;
+  pubkey: string | null;
+  chainHash: string | null;
+  chainMatchesNetwork: boolean;
+  udtAssets: string[];
+  channels: FiberChannelInfo[];
+  explorer: { base: string | null; fiberGraph: string | null };
+}
+
 export const api = {
   getHealth(): Promise<HealthResponse> {
     return request<HealthResponse>("/healthz");
+  },
+
+  getNode(): Promise<FiberNodeInfo> {
+    return request<FiberNodeInfo>("/v1/node");
   },
 
   getMerchant(merchantId: string): Promise<MerchantResponse> {

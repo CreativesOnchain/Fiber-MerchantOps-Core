@@ -1,0 +1,82 @@
+  [2m2026-07-16T09:54:54.656000Z[0m [32m INFO[0m [1;32mfnn[0m[32m: [32mStarting node with git version bc361aa (bc361aa 2026-07-02)[0m
+    [2;3mat[0m crates/fiber-bin/src/main.rs:89
+
+  [2m2026-07-16T09:54:54.725601Z[0m [32m INFO[0m [1;32mfiber_store::migration[0m[32m: [32mDatabase version 20260618120000 is current, no migration needed[0m
+    [2;3mat[0m crates/fiber-store/src/migration.rs:233
+    [2;3min[0m fnn::[1mnode[0m [2;3mwith[0m node: ""
+
+  [2m2026-07-16T09:54:54.789138Z[0m [32m INFO[0m [1;32mfnn::ckb::contracts[0m[32m: [32mCreating ContractsContext for testnet[0m
+    [2;3mat[0m crates/fiber-lib/src/ckb/contracts.rs:182
+    [2;3min[0m fnn::[1mnode[0m [2;3mwith[0m node: ""
+
+  [2m2026-07-16T09:54:56.790884Z[0m [32m INFO[0m [1;32mfnn[0m[32m: [32mStarting fiber[0m
+    [2;3mat[0m crates/fiber-bin/src/main.rs:217
+    [2;3min[0m fnn::[1mnode[0m [2;3mwith[0m node: ""
+
+  [2m2026-07-16T09:54:56.792859Z[0m [32m INFO[0m [1;32mfnn::fiber::network[0m[32m: [32mStarted listening tentacle on ["/ip4/0.0.0.0/tcp/8248/p2p/QmWM7wX58eM1iZ1Py2k4bZDQCipkWZVkRdAe7ZuyA4tVEi", "/ip4/0.0.0.0/tcp/8248/ws/p2p/QmWM7wX58eM1iZ1Py2k4bZDQCipkWZVkRdAe7ZuyA4tVEi"], peer id PeerId(QmWM7wX58eM1iZ1Py2k4bZDQCipkWZVkRdAe7ZuyA4tVEi), announced addresses [][0m
+    [2;3mat[0m crates/fiber-lib/src/fiber/network.rs:6267
+    [2;3min[0m ractor::actor::[1mActor[0m [2;3mwith[0m id: "0.3", name: "Network 0x03307ca1899ad43ebb285bf0b66611924e8ae695f5085e74fe774bb6c55223aa47"
+    [2;3min[0m fnn::[1mnode[0m [2;3mwith[0m node: ""
+
+  [2m2026-07-16T09:54:56.883678Z[0m [33m WARN[0m [1;33mfnn::fiber::channel[0m[33m: [33mpeer: Pubkey(03307ca1899ad43ebb285bf0b66611924e8ae695f5085e74fe774bb6c55223aa47) local_commitment_number (14, 14) peer_commitment_number (14 14) waiting_ack: false[0m
+    [2;3mat[0m crates/fiber-lib/src/fiber/channel.rs:8503
+    [2;3min[0m ractor::actor::[1mActor[0m [2;3mwith[0m id: "0.3", name: "Network 0x03307ca1899ad43ebb285bf0b66611924e8ae695f5085e74fe774bb6c55223aa47"
+
+  [2m2026-07-16T09:54:56.883818Z[0m [32m INFO[0m [1;32mfnn::fiber::network[0m[32m: [32mChannel (Hash256(0x16bb72334e0350b1960197014eb07e6f7f07969d35292f04aa0e15cda9c008a4)) to peer Pubkey(03d9db6ab456acf0f1474a47e6419dc0d55115454c1199230cce713b9b494001c7) is now ready[0m
+    [2;3mat[0m crates/fiber-lib/src/fiber/network.rs:1514
+    [2;3min[0m ractor::actor::[1mActor[0m [2;3mwith[0m id: "0.3", name: "Network 0x03307ca1899ad43ebb285bf0b66611924e8ae695f5085e74fe774bb6c55223aa47"
+
+  [2m2026-07-16T09:55:57.205311Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T09:55:58.025526Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 820ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+
+  [2m2026-07-16T09:56:57.205708Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T09:56:57.768020Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 563ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+
+  [2m2026-07-16T09:57:57.205361Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T09:57:57.745695Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 540ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+
+  [2m2026-07-16T09:58:57.205631Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T09:58:57.759575Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 554ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+
+  [2m2026-07-16T09:59:57.205863Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T09:59:57.750051Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 545ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+
+  [2m2026-07-16T10:00:57.206113Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T10:00:58.015801Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 809ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+
+  [2m2026-07-16T10:01:57.205345Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T10:01:57.746256Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 541ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+
+  [2m2026-07-16T10:02:57.205165Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T10:02:57.752670Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 547ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+
+  [2m2026-07-16T10:03:57.205278Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T10:03:57.760834Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 555ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+

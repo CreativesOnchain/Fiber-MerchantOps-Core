@@ -9,12 +9,14 @@ import { ReconciliationPage } from "./pages/ReconciliationPage";
 import { WebhooksPage } from "./pages/WebhooksPage";
 import { HealthProvider } from "./state/HealthContext";
 import { MerchantProvider } from "./state/MerchantContext";
+import { NodeProvider } from "./state/NodeContext";
 import { SearchProvider } from "./state/SearchContext";
 
 export function App() {
   return (
     <MerchantProvider>
       <HealthProvider>
+        <NodeProvider>
         <SearchProvider>
           <Routes>
           <Route element={<AppFrame />}>
@@ -37,6 +39,7 @@ export function App() {
           </Route>
           </Routes>
         </SearchProvider>
+        </NodeProvider>
       </HealthProvider>
     </MerchantProvider>
   );

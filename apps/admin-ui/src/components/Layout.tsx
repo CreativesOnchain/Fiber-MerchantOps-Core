@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { MobileNavProvider, useMobileNav } from "../state/MobileNavContext";
 import { Banner } from "./Banner";
+import { NetworkBadge } from "./NetworkBadge";
 import { Sidebar } from "./Sidebar";
 import { LayersIcon, MenuIcon } from "./icons";
 
@@ -57,6 +58,9 @@ export function MobileTopBar() {
       <span className="flex items-center gap-2 text-[15px] font-semibold text-ink">
         <LayersIcon size={18} className="text-brand" />
         MerchantOps
+      </span>
+      <span className="ml-auto">
+        <NetworkBadge variant="bar" />
       </span>
     </div>
   );

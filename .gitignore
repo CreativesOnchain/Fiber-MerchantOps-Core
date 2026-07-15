@@ -10,3 +10,6 @@ coverage/
 .env
 *.db
 *.db-journal
+
+# Local payer Fiber node (contains a private key)
+.fiber-payer/

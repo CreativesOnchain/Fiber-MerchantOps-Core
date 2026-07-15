@@ -5,7 +5,7 @@ import Fastify, {
   type FastifyInstance,
 } from "fastify";
 import type { FiberAdapter } from "@fiber-merchantops/fiber-adapter";
-import { createFiberAdapter } from "./adapter";
+import { createFiberAdapter, probeFiberNode } from "./adapter";
 import type { AppConfig } from "./config";
 import { createContext } from "./context";
 import { createPrismaClient } from "./db";
@@ -15,6 +15,7 @@ import { registerExportRoutes } from "./routes/exports";
 import { registerHealthRoutes } from "./routes/health";
 import { registerLedgerRoutes } from "./routes/ledger";
 import { registerMerchantRoutes } from "./routes/merchants";
+import { registerNodeRoutes } from "./routes/node";
 import { registerPaymentIntentRoutes } from "./routes/payment-intents";
 import { registerReceiptRoutes } from "./routes/receipts";
 import { registerRefundRoutes } from "./routes/refunds";
@@ -41,16 +42,32 @@ export async function buildApp(
   const { config, logger = true } = options;
   const prisma = options.prisma ?? createPrismaClient(config.DATABASE_URL);
   const ownsPrisma = options.prisma === undefined;
-  const adapter = options.adapter ?? createFiberAdapter(config);
-  const context = createContext({ config, prisma, adapter });
+  // Probe the node once at boot: real mode throws here if it is unreachable,
+  // rather than failing every later invoice call. Simulated mode is a no-op.
+  const { node, udtAssets } = await probeFiberNode(config);
+  const adapter = options.adapter ?? createFiberAdapter(config, udtAssets);
+  const context = createContext({ config, prisma, adapter, node });
 
   const app = Fastify({ logger });
   app.decorate("context", context);
+
+  if (node.mode === "real") {
+    app.log.info(
+      `Fiber node: ${node.network} v${node.version ?? "?"} pubkey=${node.pubkey ?? "?"} ` +
+        `channels=${node.channels.length} udt=${node.udtAssets.join(",") || "none"}`,
+    );
+    if (!node.chainMatchesNetwork) {
+      app.log.warn(
+        `Fiber node chain_hash ${node.chainHash} does not match expected ${node.network} genesis`,
+      );
+    }
+  }
 
   await app.register(cors, { origin: true });
 
   registerErrorHandler(app);
   registerHealthRoutes(app, context);
+  registerNodeRoutes(app, context);
   registerMerchantRoutes(app, context);
   registerPaymentIntentRoutes(app, context);
   registerDemoRoutes(app, context);

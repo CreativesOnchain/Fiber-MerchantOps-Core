@@ -26,6 +26,12 @@ const envSchema = z.object({
   FIBER_ADAPTER_MODE: z.enum(["simulated", "real"]).default("simulated"),
   FIBER_RPC_URL: z.string().default("http://127.0.0.1:8227"),
   FIBER_RPC_TOKEN: optionalNonEmptyString,
+  // Selects invoice currency (Fibb/Fibt/Fibd) and the public explorer base.
+  FIBER_NETWORK: z.enum(["mainnet", "testnet", "devnet"]).default("testnet"),
+  // RUSD is an on-chain UDT; its decimals aren't advertised by node_info, so
+  // encoding RUSD amounts requires this to be set. Unset → RUSD invoices are
+  // rejected (CKB, the native asset, always works).
+  FIBER_RUSD_DECIMALS: z.coerce.number().int().nonnegative().optional(),
   DEFAULT_MERCHANT_ID: z.string().default("m_123"),
   DEFAULT_WEBHOOK_SECRET: z.string().default("whsec_demo_secret"),
   MERCHANT_DEMO_WEBHOOK_URL: z

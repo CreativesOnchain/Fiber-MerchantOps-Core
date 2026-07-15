@@ -10,8 +10,9 @@ import { Button } from "../components/Button";
 import { AsyncSection, ErrorNote } from "../components/Feedback";
 import { PageHeader, Panel } from "../components/PageHeader";
 import { Pill, StatusPill } from "../components/Pill";
-import { ChevronLeft, RefreshIcon } from "../components/icons";
+import { ChevronLeft, ExternalIcon, RefreshIcon } from "../components/icons";
 import { useAsync } from "../hooks/useAsync";
+import { fiberGraphUrl, txUrl } from "../lib/explorer";
 import {
   formatAmount,
   formatDateTime,
@@ -20,6 +21,7 @@ import {
   truncateMiddle,
 } from "../lib/format";
 import { useHealth } from "../state/HealthContext";
+import { useNode } from "../state/NodeContext";
 
 interface DetailBundle {
   intent: PaymentIntentResponse;
@@ -41,6 +43,7 @@ const DEMO_ACTIONS: { action: DemoAction; label: string; danger?: boolean }[] = 
 export function PaymentIntentDetailPage() {
   const { id = "" } = useParams();
   const { health } = useHealth();
+  const { node } = useNode();
   const demoEnabled = health?.demo_endpoints_enabled ?? false;
 
   const state = useAsync<DetailBundle>(
@@ -246,6 +249,64 @@ export function PaymentIntentDetailPage() {
               </Panel>
             </div>
 
+            {/* Fiber network + explorer links */}
+            <Panel className="p-5">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <h2 className="text-[14px] font-semibold text-ink">
+                  Fiber network
+                </h2>
+                {node ? (
+                  <span className="rounded-md bg-neutral-bg px-2 py-0.5 text-[11px] font-medium text-muted">
+                    {node.mode === "real"
+                      ? `${node.network} · live node`
+                      : "simulated"}
+                  </span>
+                ) : null}
+              </div>
+              <dl className="flex flex-col">
+                <LinkField
+                  label="Receiving node"
+                  value={
+                    node?.pubkey ? truncateMiddle(node.pubkey, 10, 8) : "—"
+                  }
+                  href={fiberGraphUrl(node)}
+                />
+                {(node?.channels ?? []).length === 0 ? (
+                  <LinkField label="Channel funding tx" value="—" href={null} />
+                ) : (
+                  node!.channels.map((channel, index) => (
+                    <LinkField
+                      key={channel.channelId || index}
+                      label={
+                        node!.channels.length > 1
+                          ? `Channel ${index + 1} funding tx (${channel.state})`
+                          : "Channel funding tx"
+                      }
+                      value={
+                        channel.fundingTxHash
+                          ? truncateMiddle(channel.fundingTxHash, 10, 8)
+                          : "—"
+                      }
+                      href={txUrl(node, channel.fundingTxHash)}
+                    />
+                  ))
+                )}
+                <Field
+                  label="Payment hash"
+                  value={orDash(intent.payment_hash)}
+                  mono
+                  title={intent.payment_hash}
+                  truncate
+                />
+              </dl>
+              <p className="mt-3 text-[12px] leading-relaxed text-muted">
+                Fiber payments settle off-chain inside this node's channels, so a
+                paid invoice has no per-payment on-chain transaction. The channel
+                funding transactions above are the on-chain anchors you can inspect
+                on the explorer.
+              </p>
+            </Panel>
+
             {/* Ledger timeline */}
             <Panel>
               <h2 className="border-b border-hairline px-5 py-3.5 text-[14px] font-semibold text-ink">
@@ -378,6 +439,38 @@ function Field({
         title={title ?? undefined}
       >
         {value}
+      </dd>
+    </div>
+  );
+}
+
+/** A field whose value opens the real explorer in a new tab (plain text if no URL). */
+function LinkField({
+  label,
+  value,
+  href,
+}: {
+  label: string;
+  value: string;
+  href: string | null;
+}) {
+  return (
+    <div className="flex items-baseline justify-between gap-4 border-b border-hairline py-2 last:border-b-0">
+      <dt className="shrink-0 text-[13px] text-muted">{label}</dt>
+      <dd className="min-w-0 text-right font-mono text-[12px]">
+        {href ? (
+          <a
+            href={href}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 text-brand underline underline-offset-2 hover:text-brand-hover"
+          >
+            {value}
+            <ExternalIcon size={12} className="shrink-0 opacity-70" />
+          </a>
+        ) : (
+          <span className="text-ink">{value}</span>
+        )}
       </dd>
     </div>
   );

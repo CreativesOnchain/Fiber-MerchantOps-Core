@@ -10,6 +10,7 @@ import { useMediaQuery } from "../hooks/useMediaQuery";
 import { useMerchant } from "../state/MerchantContext";
 import { useMobileNav } from "../state/MobileNavContext";
 import { useSearch } from "../state/SearchContext";
+import { NetworkBadge } from "./NetworkBadge";
 import {
   CheckIcon,
   DotsIcon,
@@ -140,6 +141,13 @@ export function Sidebar() {
         </div>
       ) : (
         <SidebarSearch inputRef={inputRef} />
+      )}
+
+      {/* Network indicator (live node / simulated) */}
+      {effectiveCollapsed ? null : (
+        <div className="mb-4 px-4">
+          <NetworkBadge variant="sidebar" />
+        </div>
       )}
 
       {/* Navigation */}
