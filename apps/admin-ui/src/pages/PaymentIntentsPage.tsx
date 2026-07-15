@@ -13,6 +13,7 @@ import type {
 } from "@fiber-merchantops/shared";
 import { api, type ExportFormat } from "../api/client";
 import { Banner } from "../components/Banner";
+import { MobileTopBar } from "../components/Layout";
 import { Skeleton } from "../components/Feedback";
 import { StatusPill } from "../components/Pill";
 import { RowMenu } from "../components/RowMenu";
@@ -235,21 +236,22 @@ export function PaymentIntentsPage() {
   return (
     <>
       <main className="relative flex h-full min-w-0 flex-1 flex-col overflow-hidden border-r border-hairline bg-white">
-        <div className="px-8 pt-4 empty:hidden">
+        <MobileTopBar />
+        <div className="px-4 pt-4 empty:hidden sm:px-6 lg:px-8">
           <Banner />
         </div>
 
         {/* Header */}
-        <header className="flex items-end justify-between px-8 pt-6 pb-4">
+        <header className="flex flex-wrap items-end justify-between gap-3 px-4 pt-5 pb-4 sm:px-6 lg:px-8 lg:pt-6">
           <div>
-            <h1 className="text-[28px] font-bold leading-none tracking-tight text-ink">
+            <h1 className="text-[22px] font-bold leading-none tracking-tight text-ink sm:text-[28px]">
               Payment intents
             </h1>
             <p className="mt-1.5 text-[13px] text-muted">
               {current?.name ?? merchantId} · {rows.length} records
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-2 sm:gap-3">
             <button
               onClick={() => download("csv")}
               className="flex items-center gap-2 rounded-md bg-ink px-4 py-2 text-[13px] font-medium text-white shadow-sm transition-colors hover:bg-black"
@@ -268,7 +270,7 @@ export function PaymentIntentsPage() {
         </header>
 
         {/* Filters */}
-        <div className="flex flex-wrap items-center gap-2 px-8 py-3">
+        <div className="flex flex-wrap items-center gap-2 px-4 py-3 sm:px-6 lg:px-8">
           <FilterPill
             label="Status"
             value={statusFilter}
@@ -303,13 +305,13 @@ export function PaymentIntentsPage() {
         </div>
 
         {actionError ? (
-          <div className="mx-8 mb-2 rounded-md border border-danger/20 bg-danger-bg px-3.5 py-2 text-[12px] text-danger">
+          <div className="mx-4 mb-2 rounded-md border border-danger/20 bg-danger-bg px-3.5 py-2 text-[12px] text-danger sm:mx-6 lg:mx-8">
             {actionError}
           </div>
         ) : null}
 
         {/* Table */}
-        <div className="flex-1 overflow-auto px-8 pb-24 scroll-slim">
+        <div className="flex-1 overflow-auto px-4 pb-24 scroll-slim sm:px-6 lg:px-8">
           {intentsState.loading && rows.length === 0 ? (
             <TableSkeleton />
           ) : intentsState.error && rows.length === 0 ? (
@@ -830,11 +832,11 @@ function OrderModal({
 
   return (
     <div
-      className="absolute inset-0 z-40 flex items-center justify-center bg-black/20 px-6"
+      className="absolute inset-0 z-40 flex items-center justify-center bg-black/20 px-4 sm:px-6"
       onClick={onClose}
     >
       <div
-        className="flex w-[360px] flex-col overflow-hidden rounded-xl border border-hairline bg-white shadow-float"
+        className="flex w-[360px] max-w-full flex-col overflow-hidden rounded-xl border border-hairline bg-white shadow-float"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

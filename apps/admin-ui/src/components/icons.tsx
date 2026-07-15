@@ -34,6 +34,12 @@ export const GridIcon = (p: IconProps) => (
   </Svg>
 );
 
+export const MenuIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M3 6h18M3 12h18M3 18h18" />
+  </Svg>
+);
+
 export const ReceiptIcon = (p: IconProps) => (
   <Svg {...p}>
     <path d="M6 2h12v20l-3-2-3 2-3-2-3 2V2Z" />

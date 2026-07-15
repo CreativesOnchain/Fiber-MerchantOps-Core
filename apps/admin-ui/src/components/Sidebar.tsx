@@ -6,7 +6,9 @@ import {
   type RefObject,
 } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 import { useMerchant } from "../state/MerchantContext";
+import { useMobileNav } from "../state/MobileNavContext";
 import { useSearch } from "../state/SearchContext";
 import {
   CheckIcon,
@@ -20,6 +22,7 @@ import {
   ReportIcon,
   SearchIcon,
   WebhookIcon,
+  XIcon,
 } from "./icons";
 
 interface NavItem {
@@ -47,6 +50,12 @@ export function Sidebar() {
   );
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const { open: mobileOpen, close: closeMobile } = useMobileNav();
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+  // The icon-rail collapse is a desktop-only affordance; the mobile drawer
+  // always renders the full-width, labelled sidebar.
+  const effectiveCollapsed = isDesktop ? collapsed : false;
+
   const setCollapsedPersist = (value: boolean) => {
     setCollapsed(value);
     window.localStorage.setItem(COLLAPSE_KEY, value ? "1" : "0");
@@ -61,22 +70,22 @@ export function Sidebar() {
     const onKey = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
-        if (collapsed) expandAndFocusSearch();
+        if (effectiveCollapsed) expandAndFocusSearch();
         else inputRef.current?.focus();
       }
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [collapsed]);
+  }, [effectiveCollapsed]);
 
   return (
     <aside
-      className={`flex h-full shrink-0 flex-col bg-sidebar text-sidebar-text transition-[width] duration-200 ${
-        collapsed ? "w-[68px]" : "w-[240px]"
-      }`}
+      className={`fixed inset-y-0 left-0 z-50 flex h-full shrink-0 flex-col bg-sidebar text-sidebar-text transition-transform duration-200 lg:static lg:z-auto lg:translate-x-0 lg:transition-[width] ${
+        mobileOpen ? "translate-x-0" : "-translate-x-full"
+      } ${effectiveCollapsed ? "w-[68px]" : "w-[240px]"}`}
     >
       {/* Brand + collapse toggle */}
-      {collapsed ? (
+      {effectiveCollapsed ? (
         <div className="flex justify-center px-3 py-6">
           <button
             type="button"
@@ -94,20 +103,30 @@ export function Sidebar() {
             <LayersIcon size={20} className="text-brand" />
             MerchantOps
           </div>
+          {/* Collapse to the icon rail on desktop; close the drawer on mobile. */}
           <button
             type="button"
             onClick={() => setCollapsedPersist(true)}
             title="Collapse sidebar"
             aria-label="Collapse sidebar"
-            className="text-sidebar-text transition-colors hover:text-white"
+            className="hidden text-sidebar-text transition-colors hover:text-white lg:block"
           >
             <PanelLeftIcon size={18} />
+          </button>
+          <button
+            type="button"
+            onClick={closeMobile}
+            title="Close menu"
+            aria-label="Close menu"
+            className="text-sidebar-text transition-colors hover:text-white lg:hidden"
+          >
+            <XIcon size={18} />
           </button>
         </div>
       )}
 
       {/* Search */}
-      {collapsed ? (
+      {effectiveCollapsed ? (
         <div className="mb-6 flex justify-center px-3">
           <button
             type="button"
@@ -126,25 +145,39 @@ export function Sidebar() {
       {/* Navigation */}
       <nav
         className={`flex-1 space-y-1 overflow-y-auto scroll-slim ${
-          collapsed ? "px-2" : "px-3"
+          effectiveCollapsed ? "px-2" : "px-3"
         }`}
       >
         {NAV.map((item) => (
-          <NavItemLink key={item.to} item={item} collapsed={collapsed} />
+          <NavItemLink
+            key={item.to}
+            item={item}
+            collapsed={effectiveCollapsed}
+            onNavigate={closeMobile}
+          />
         ))}
       </nav>
 
-      <ProfileSwitcher collapsed={collapsed} />
+      <ProfileSwitcher collapsed={effectiveCollapsed} />
     </aside>
   );
 }
 
-function NavItemLink({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
+function NavItemLink({
+  item,
+  collapsed,
+  onNavigate,
+}: {
+  item: NavItem;
+  collapsed: boolean;
+  onNavigate?: () => void;
+}) {
   const Icon = item.icon;
   return (
     <NavLink
       to={item.to}
       end={item.end}
+      onClick={onNavigate}
       title={collapsed ? item.label : undefined}
       className={({ isActive }) =>
         collapsed
