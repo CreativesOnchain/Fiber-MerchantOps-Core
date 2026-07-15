@@ -80,3 +80,53 @@
   [2m2026-07-16T10:03:57.760834Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 555ms[0m
     [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
 
+  [2m2026-07-16T10:04:57.205836Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T10:04:57.765004Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 559ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+
+  [2m2026-07-16T10:05:57.205186Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T10:05:57.775363Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 570ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+
+  [2m2026-07-16T10:06:57.205287Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T10:06:57.785974Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 580ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+
+  [2m2026-07-16T10:07:34.672448Z[0m [33m WARN[0m [1;33mfnn::fiber::channel[0m[33m: [33mpeer: Pubkey(03307ca1899ad43ebb285bf0b66611924e8ae695f5085e74fe774bb6c55223aa47) local_commitment_number (14, 14) peer_commitment_number (14 14) waiting_ack: false[0m
+    [2;3mat[0m crates/fiber-lib/src/fiber/channel.rs:8503
+    [2;3min[0m ractor::actor::[1mActor[0m [2;3mwith[0m id: "0.3", name: "Network 0x03307ca1899ad43ebb285bf0b66611924e8ae695f5085e74fe774bb6c55223aa47"
+
+  [2m2026-07-16T10:07:34.672768Z[0m [32m INFO[0m [1;32mfnn::fiber::network[0m[32m: [32mChannel (Hash256(0x16bb72334e0350b1960197014eb07e6f7f07969d35292f04aa0e15cda9c008a4)) to peer Pubkey(03d9db6ab456acf0f1474a47e6419dc0d55115454c1199230cce713b9b494001c7) is now ready[0m
+    [2;3mat[0m crates/fiber-lib/src/fiber/network.rs:1514
+    [2;3min[0m ractor::actor::[1mActor[0m [2;3mwith[0m id: "0.3", name: "Network 0x03307ca1899ad43ebb285bf0b66611924e8ae695f5085e74fe774bb6c55223aa47"
+
+  [2m2026-07-16T10:07:57.205168Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T10:07:58.039244Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 834ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+
+  [2m2026-07-16T10:08:57.206084Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T10:08:57.751176Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 545ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+
+  [2m2026-07-16T10:09:57.205436Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T10:09:57.760868Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 555ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+
+  [2m2026-07-16T10:10:57.206077Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck started[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:230
+
+  [2m2026-07-16T10:10:57.750523Z[0m [32m INFO[0m [1;32mfnn::watchtower::actor[0m[32m: [32mPeriodicCheck finished elapsed: 544ms[0m
+    [2;3mat[0m crates/fiber-lib/src/watchtower/actor.rs:234
+

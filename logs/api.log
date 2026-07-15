@@ -191,3 +191,29 @@
 {"level":30,"time":1784195913424,"pid":2116224,"hostname":"ip-172-31-39-159","reqId":"req-2h","res":{"statusCode":404},"responseTime":0.32658863067626953,"msg":"request completed"}
 {"level":30,"time":1784196146014,"pid":2116224,"hostname":"ip-172-31-39-159","reqId":"req-2i","req":{"method":"GET","url":"/","host":"merchantops.16.171.44.97.sslip.io","remoteAddress":"127.0.0.1","remotePort":49646},"msg":"incoming request"}
 {"level":30,"time":1784196146014,"pid":2116224,"hostname":"ip-172-31-39-159","reqId":"req-2i","res":{"statusCode":404},"responseTime":0.3059420585632324,"msg":"request completed"}
+{"level":30,"time":1784196469947,"pid":2116224,"hostname":"ip-172-31-39-159","reqId":"req-2j","req":{"method":"GET","url":"/healthz","host":"merchantops.16.171.44.97.sslip.io","remoteAddress":"127.0.0.1","remotePort":34260},"msg":"incoming request"}
+{"level":30,"time":1784196469948,"pid":2116224,"hostname":"ip-172-31-39-159","reqId":"req-2j","res":{"statusCode":200},"responseTime":0.9078707695007324,"msg":"request completed"}
+{"level":30,"time":1784196469993,"pid":2116224,"hostname":"ip-172-31-39-159","reqId":"req-2k","req":{"method":"GET","url":"/v1/node","host":"merchantops.16.171.44.97.sslip.io","remoteAddress":"127.0.0.1","remotePort":34260},"msg":"incoming request"}
+{"level":30,"time":1784196469996,"pid":2116224,"hostname":"ip-172-31-39-159","reqId":"req-2k","res":{"statusCode":200},"responseTime":2.933439254760742,"msg":"request completed"}
+{"level":30,"time":1784196470026,"pid":2116224,"hostname":"ip-172-31-39-159","reqId":"req-2l","req":{"method":"GET","url":"/v1/merchants/m_123/payment_intents?limit=20","host":"merchantops.16.171.44.97.sslip.io","remoteAddress":"127.0.0.1","remotePort":34260},"msg":"incoming request"}
+{"level":30,"time":1784196470029,"pid":2116224,"hostname":"ip-172-31-39-159","reqId":"req-2l","res":{"statusCode":200},"responseTime":2.57944393157959,"msg":"request completed"}
+ ELIFECYCLE  Command failed.
+
+> @fiber-merchantops/api-server@0.1.0 start /home/ubuntu/Fiber-MerchantOps-Core/apps/api-server
+> tsx src/index.ts
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+◇ injected env (0) from ../../.env // tip: ◈ encrypted .env [www.dotenvx.com]
+{"level":30,"time":1784196490475,"pid":2122225,"hostname":"ip-172-31-39-159","msg":"Fiber node: testnet v0.9.0-rc7 pubkey=03d9db6ab456acf0f1474a47e6419dc0d55115454c1199230cce713b9b494001c7 channels=2 udt=none"}
+{"level":30,"time":1784196490490,"pid":2122225,"hostname":"ip-172-31-39-159","msg":"webhook worker started (every 1000ms)"}
+{"level":30,"time":1784196490490,"pid":2122225,"hostname":"ip-172-31-39-159","msg":"status poller enabled (every 5000ms)"}
+{"level":30,"time":1784196490493,"pid":2122225,"hostname":"ip-172-31-39-159","msg":"Server listening at http://127.0.0.1:8123"}
+{"level":30,"time":1784196490493,"pid":2122225,"hostname":"ip-172-31-39-159","msg":"Server listening at http://172.31.39.159:8123"}
+{"level":30,"time":1784196490493,"pid":2122225,"hostname":"ip-172-31-39-159","msg":"Server listening at http://172.17.0.1:8123"}
+{"level":30,"time":1784196490493,"pid":2122225,"hostname":"ip-172-31-39-159","msg":"Server listening at http://172.18.0.1:8123"}
+{"level":30,"time":1784196491221,"pid":2122225,"hostname":"ip-172-31-39-159","reqId":"req-1","req":{"method":"GET","url":"/healthz","host":"127.0.0.1:8123","remoteAddress":"127.0.0.1","remotePort":33436},"msg":"incoming request"}
+{"level":30,"time":1784196491224,"pid":2122225,"hostname":"ip-172-31-39-159","reqId":"req-1","res":{"statusCode":200},"responseTime":2.5351428985595703,"msg":"request completed"}
+{"level":30,"time":1784196564904,"pid":2122225,"hostname":"ip-172-31-39-159","reqId":"req-2","req":{"method":"GET","url":"/","host":"merchantops.16.171.44.97.sslip.io","remoteAddress":"127.0.0.1","remotePort":35710},"msg":"incoming request"}
+{"level":30,"time":1784196564905,"pid":2122225,"hostname":"ip-172-31-39-159","reqId":"req-2","res":{"statusCode":404},"responseTime":0.565000057220459,"msg":"request completed"}
+{"level":30,"time":1784196565813,"pid":2122225,"hostname":"ip-172-31-39-159","reqId":"req-3","req":{"method":"GET","url":"/favicon.ico","host":"merchantops.16.171.44.97.sslip.io","remoteAddress":"127.0.0.1","remotePort":35710},"msg":"incoming request"}
+{"level":30,"time":1784196565814,"pid":2122225,"hostname":"ip-172-31-39-159","reqId":"req-3","res":{"statusCode":404},"responseTime":0.4541358947753906,"msg":"request completed"}
