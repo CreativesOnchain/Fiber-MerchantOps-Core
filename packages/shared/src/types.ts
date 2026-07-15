@@ -31,6 +31,10 @@ export interface MerchantCreatedResponse extends MerchantResponse {
   webhook_secret: string | null;
 }
 
+export interface ListMerchantsResponse {
+  merchants: MerchantResponse[];
+}
+
 export interface PaymentIntentResponse {
   payment_intent_id: string;
   merchant_id: string;

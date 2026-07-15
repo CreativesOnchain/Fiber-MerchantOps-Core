@@ -48,6 +48,14 @@ export function registerMerchantRoutes(
     }
   });
 
+  // Every merchant, oldest first — backs the admin UI's merchant switcher.
+  app.get("/v1/merchants", async () => {
+    const merchants = await ctx.prisma.merchant.findMany({
+      orderBy: { createdAt: "asc" },
+    });
+    return { merchants: merchants.map(merchantToResponse) };
+  });
+
   app.get("/v1/merchants/:id", async (request) => {
     const { id } = request.params as { id: string };
     const merchant = await ctx.prisma.merchant.findUnique({ where: { id } });

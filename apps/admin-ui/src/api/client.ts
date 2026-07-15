@@ -3,8 +3,10 @@ import type {
   DemoActionResponse,
   HealthResponse,
   ListLedgerEventsResponse,
+  ListMerchantsResponse,
   ListPaymentIntentsResponse,
   ListWebhookEventsResponse,
+  MerchantResponse,
   PaymentIntentResponse,
   ReceiptResponse,
   RefreshPaymentIntentResponse,
@@ -76,6 +78,16 @@ export function absoluteUrl(path: string): string {
 export const api = {
   getHealth(): Promise<HealthResponse> {
     return request<HealthResponse>("/healthz");
+  },
+
+  getMerchant(merchantId: string): Promise<MerchantResponse> {
+    return request<MerchantResponse>(
+      `/v1/merchants/${encodeURIComponent(merchantId)}`,
+    );
+  },
+
+  listMerchants(): Promise<ListMerchantsResponse> {
+    return request<ListMerchantsResponse>("/v1/merchants");
   },
 
   listPaymentIntents(

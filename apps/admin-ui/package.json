@@ -12,15 +12,18 @@
   },
   "dependencies": {
     "@fiber-merchantops/shared": "workspace:*",
+    "@fontsource-variable/inter": "^5.2.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.3.2",
     "@types/node": "^26.1.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
+    "tailwindcss": "^4.3.2",
     "typescript": "^6.0.3",
     "vite": "^6.0.0"
   }

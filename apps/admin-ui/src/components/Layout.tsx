@@ -1,57 +1,36 @@
-import { NavLink, Outlet } from "react-router-dom";
-import { useMerchant } from "../state/MerchantContext";
+import { Outlet } from "react-router-dom";
 import { Banner } from "./Banner";
+import { Sidebar } from "./Sidebar";
 
-const NAV = [
-  { to: "/", label: "Payment Intents", end: true },
-  { to: "/ledger", label: "Ledger", end: false },
-  { to: "/webhooks", label: "Webhooks", end: false },
-  { to: "/receipts", label: "Receipts", end: false },
-  { to: "/reconciliation", label: "Reconciliation", end: false },
-];
-
-/** App chrome: title, merchant selector, nav, mode banner, and routed screen. */
-export function Layout() {
-  const { merchantId, setMerchantId } = useMerchant();
-
+/**
+ * Top-level chrome: the dark sidebar plus whatever the active route renders as
+ * its siblings. Standard screens go through {@link StandardScreen}; the orders
+ * screen renders its own <main> + right rail directly, so it becomes a flex
+ * sibling of the sidebar for the full three-column Mate layout.
+ */
+export function AppFrame() {
   return (
-    <div className="app-shell">
-      <header className="app-header">
-        <div className="app-title">
-          <span className="app-title-main">Fiber MerchantOps</span>
-          <span className="app-title-sub">Admin</span>
-        </div>
-        <label className="merchant-field">
-          <span>Merchant</span>
-          <input
-            value={merchantId}
-            onChange={(event) => setMerchantId(event.target.value)}
-            spellCheck={false}
-            aria-label="Merchant ID"
-          />
-        </label>
-      </header>
-
-      <Banner />
-
-      <nav className="app-nav">
-        {NAV.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            end={item.end}
-            className={({ isActive }) =>
-              isActive ? "nav-link nav-link-active" : "nav-link"
-            }
-          >
-            {item.label}
-          </NavLink>
-        ))}
-      </nav>
-
-      <main className="app-main">
-        <Outlet />
-      </main>
+    <div className="flex h-screen w-full overflow-hidden bg-white text-ink">
+      <Sidebar />
+      <Outlet />
     </div>
+  );
+}
+
+/**
+ * The single-column content surface shared by every screen except orders:
+ * a white, independently scrolling panel with a centered measure, the health
+ * banner pinned above the page body.
+ */
+export function StandardScreen() {
+  return (
+    <main className="flex h-full min-w-0 flex-1 flex-col overflow-hidden bg-white">
+      <div className="flex-1 overflow-y-auto scroll-slim">
+        <div className="mx-auto flex max-w-[1180px] flex-col gap-6 px-8 py-8">
+          <Banner />
+          <Outlet />
+        </div>
+      </div>
+    </main>
   );
 }

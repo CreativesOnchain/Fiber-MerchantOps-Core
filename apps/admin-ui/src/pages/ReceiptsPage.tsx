@@ -1,99 +1,167 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import type { PaymentIntentSummary } from "@fiber-merchantops/shared";
 import { api } from "../api/client";
-import { StatusBadge } from "../components/Badge";
+import { DataTable, StackedCell, type Column } from "../components/DataTable";
 import { AsyncSection } from "../components/Feedback";
+import { PageHeader } from "../components/PageHeader";
+import { RowMenu } from "../components/RowMenu";
 import { useAsync } from "../hooks/useAsync";
+import { formatAmount, formatDateTime } from "../lib/format";
 import { useMerchant } from "../state/MerchantContext";
 
 /**
- * Screen 5 — Receipts (brief §18): every paid intent that issued a receipt,
- * with links to the JSON and HTML receipt documents. There is no list-receipts
- * endpoint, so the list is derived from the merchant's intents that carry a
- * receipt_id.
+ * Receipts — every paid intent that issued a receipt, with links to the JSON and
+ * HTML documents. There is no list-receipts endpoint, so the list is derived
+ * from the merchant's intents that carry a receipt_id.
  */
 export function ReceiptsPage() {
-  const { merchantId } = useMerchant();
+  const { merchantId, current } = useMerchant();
+  const navigate = useNavigate();
   const state = useAsync(
-    () => api.listPaymentIntents(merchantId),
+    () => api.listPaymentIntents(merchantId, { limit: 200 }),
     [merchantId],
-    5000,
+    8000,
   );
 
+  const columns: Column<PaymentIntentSummary>[] = [
+    {
+      key: "receipt",
+      header: "Receipt ID",
+      sortable: true,
+      value: (r) => r.receipt_id ?? "",
+      render: (r) => (
+        <span className="font-mono text-[12px] text-ink">{r.receipt_id}</span>
+      ),
+    },
+    {
+      key: "order",
+      header: "Order",
+      sortable: true,
+      value: (r) => r.order_id,
+      render: (r) => (
+        <StackedCell
+          primary={r.order_id}
+          secondary={
+            <span className="font-mono text-[11px]">
+              {r.payment_intent_id}
+            </span>
+          }
+        />
+      ),
+    },
+    {
+      key: "amount",
+      header: "Amount",
+      sortable: true,
+      value: (r) => Number(r.amount) || 0,
+      render: (r) => (
+        <span className="whitespace-nowrap font-semibold tabular text-ink">
+          {formatAmount(r.amount)}{" "}
+          <span className="font-normal text-muted">{r.asset}</span>
+        </span>
+      ),
+    },
+    {
+      key: "issued",
+      header: "Issued",
+      sortable: true,
+      value: (r) => new Date(r.created_at).getTime(),
+      render: (r) => (
+        <span className="whitespace-nowrap text-muted">
+          {formatDateTime(r.created_at)}
+        </span>
+      ),
+    },
+    {
+      key: "documents",
+      header: "Documents",
+      render: (r) =>
+        r.receipt_id ? (
+          <span
+            className="flex items-center gap-3"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <a
+              href={api.receiptHtmlUrl(r.receipt_id)}
+              target="_blank"
+              rel="noreferrer"
+              className="text-[12px] font-medium text-ink underline decoration-hairline-strong underline-offset-2 transition-colors duration-150 hover:text-brand hover:decoration-brand"
+            >
+              HTML
+            </a>
+            <a
+              href={api.receiptJsonUrl(r.receipt_id)}
+              target="_blank"
+              rel="noreferrer"
+              className="text-[12px] font-medium text-ink underline decoration-hairline-strong underline-offset-2 transition-colors duration-150 hover:text-brand hover:decoration-brand"
+            >
+              JSON
+            </a>
+          </span>
+        ) : null,
+    },
+  ];
+
   return (
-    <section>
-      <div className="section-head">
-        <h1>Receipts</h1>
-        <button className="btn" onClick={() => state.reload()}>
-          Refresh
-        </button>
-      </div>
+    <div className="flex flex-col gap-4">
+      <PageHeader
+        title="Receipts"
+        description={`Issued receipts for ${current?.name ?? merchantId}`}
+      />
 
       <AsyncSection
         loading={state.loading}
         error={state.error}
         data={state.data}
-        isEmpty={(data) => data.items.every((i) => i.receipt_id === null)}
-        emptyLabel={`No receipts yet for ${merchantId}. Receipts are issued when an intent is paid.`}
+        isEmpty={() => false}
+        emptyLabel=""
       >
-        {(data) => (
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Receipt ID</th>
-                  <th>Order ID</th>
-                  <th>Payment Intent</th>
-                  <th>Amount</th>
-                  <th>Asset</th>
-                  <th>Status</th>
-                  <th>Documents</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.items
-                  .filter((intent) => intent.receipt_id !== null)
-                  .map((intent) => {
-                    const receiptId = intent.receipt_id as string;
-                    return (
-                      <tr key={receiptId}>
-                        <td className="mono">{receiptId}</td>
-                        <td>{intent.order_id}</td>
-                        <td className="mono">
-                          <Link
-                            to={`/payment-intents/${intent.payment_intent_id}`}
-                          >
-                            {intent.payment_intent_id}
-                          </Link>
-                        </td>
-                        <td className="num">{intent.amount}</td>
-                        <td>{intent.asset}</td>
-                        <td>
-                          <StatusBadge status={intent.status} />
-                        </td>
-                        <td className="receipt-links">
-                          <a
-                            href={api.receiptJsonUrl(receiptId)}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            JSON
-                          </a>
-                          <a
-                            href={api.receiptHtmlUrl(receiptId)}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            HTML
-                          </a>
-                        </td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
-          </div>
-        )}
+        {(data) => {
+          const rows = data.items.filter((i) => i.receipt_id);
+          return (
+            <DataTable
+              columns={columns}
+              rows={rows}
+              rowKey={(r) => r.payment_intent_id}
+              onRefresh={() => state.reload()}
+              onRowClick={(r) =>
+                navigate(`/payment-intents/${r.payment_intent_id}`)
+              }
+              searchPlaceholder="Search by receipt / order"
+              emptyLabel={`No receipts issued for ${merchantId} yet.`}
+              rowActions={(r) => (
+                <RowMenu
+                  items={[
+                    {
+                      label: "Open HTML receipt",
+                      onSelect: () =>
+                        window.open(
+                          api.receiptHtmlUrl(r.receipt_id!),
+                          "_blank",
+                          "noreferrer",
+                        ),
+                    },
+                    {
+                      label: "Open JSON receipt",
+                      onSelect: () =>
+                        window.open(
+                          api.receiptJsonUrl(r.receipt_id!),
+                          "_blank",
+                          "noreferrer",
+                        ),
+                    },
+                    {
+                      label: "View payment intent",
+                      onSelect: () =>
+                        navigate(`/payment-intents/${r.payment_intent_id}`),
+                    },
+                  ]}
+                />
+              )}
+            />
+          );
+        }}
       </AsyncSection>
-    </section>
+    </div>
   );
 }
